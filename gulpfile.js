@@ -1,6 +1,7 @@
 const { series, parallel, src, dest, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
-const clean = require('gulp-clean');
+const exec = require('gulp-exec');
+const sourcemaps = require('gulp-sourcemaps');
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
@@ -10,6 +11,10 @@ const htmlmin = require('gulp-htmlmin');
 
 const SRC_PATH = 'src';
 const DEST_PATH = 'dist';
+const REQUIRE_JS = [
+ 'node_modules/vue/dist/vue.min.js'
+];
+const DIST_JS = 'glosa.min.js';
 
 // Static server
 function initBrowserSync(cb) {
@@ -22,8 +27,9 @@ function initBrowserSync(cb) {
 }
 
 function cleanOld(cb) {
-    return src(DEST_PATH)
-        .pipe(clean());
+    return src('.')
+        .pipe(exec('rm -rf dist'))
+        .pipe(exec('mkdir dist'));
 }
 
 function html(cb) {
@@ -34,20 +40,24 @@ function html(cb) {
 }
 
 function js(cb) {
-    return src(SRC_PATH + '/js/*.js')
-        .pipe(concat('glosa.min.js'))
+    return src(REQUIRE_JS.concat([SRC_PATH + '/js/*.js']))
+        .pipe(sourcemaps.init())
+        .pipe(concat(DIST_JS))
         .pipe(babel({
             presets: ['@babel/env']
         }))
         .pipe(uglify())
+        .pipe(sourcemaps.write('.'))
         .pipe(dest(DEST_PATH + '/js/'))
         .pipe(browserSync.stream()) ;
 }
 
 function sassCompile(cb) {
     return src([SRC_PATH + '/sass/desktop.sass', SRC_PATH + '/sass/mobile.sass'])
+        .pipe(sourcemaps.init())
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(rename({ extname: '.min.css' }))
+        .pipe(sourcemaps.write('.'))
         .pipe(dest(DEST_PATH + '/css/'))
         .pipe(browserSync.stream()) ;
 }
