@@ -1,3 +1,6 @@
+//===
+// IMPORTS
+//===
 const { series, parallel, src, dest, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
 const exec = require('gulp-exec');
@@ -9,6 +12,9 @@ const concat = require('gulp-concat');
 const sass = require('gulp-sass');
 const htmlmin = require('gulp-htmlmin');
 
+//===
+// VARIABLES
+//===
 const SRC_PATH = 'src';
 const DEST_PATH = 'dist';
 const REQUIRE_JS = [
@@ -16,7 +22,11 @@ const REQUIRE_JS = [
 ];
 const DIST_JS = 'glosa.min.js';
 
-// Static server
+//===
+// TASKS
+//===
+
+// Static server with reload
 function initBrowserSync(cb) {
     browserSync.init({
         server: {
@@ -26,12 +36,14 @@ function initBrowserSync(cb) {
     return cb;
 }
 
+// Delete dist folder
 function cleanOld(cb) {
     return src('.')
         .pipe(exec('rm -rf dist'))
         .pipe(exec('mkdir dist'));
 }
 
+// HTML min
 function html(cb) {
     return src(SRC_PATH + '/*.html')
         .pipe(htmlmin({ collapseWhitespace: true }))
@@ -39,6 +51,7 @@ function html(cb) {
         .pipe(browserSync.stream()) ;
 }
 
+// JS concat + sourcemaps + babel + min
 function js(cb) {
     return src(REQUIRE_JS.concat([SRC_PATH + '/js/*.js']))
         .pipe(sourcemaps.init())
@@ -52,6 +65,7 @@ function js(cb) {
         .pipe(browserSync.stream()) ;
 }
 
+// Compile SASS + sourcemaps
 function sassCompile(cb) {
     return src([SRC_PATH + '/sass/desktop.sass', SRC_PATH + '/sass/mobile.sass'])
         .pipe(sourcemaps.init())
@@ -62,9 +76,13 @@ function sassCompile(cb) {
         .pipe(browserSync.stream()) ;
 }
 
-// Tasks
+//===
+// Commands
+//===
+
 const build = series(cleanOld, parallel(html, js, sassCompile));
 
+// gulp dev
 exports.dev = function () {
     watch(SRC_PATH + '/*.html', html);
     watch(SRC_PATH + '/js/*.js', js);
@@ -72,4 +90,5 @@ exports.dev = function () {
     initBrowserSync();
 }
 
+// gulp
 exports.default = build;
