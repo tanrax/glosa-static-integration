@@ -6,10 +6,36 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
         <link href="css/mobile.min.css" rel="stylesheet" media="all and (max-width: 600px)">
         <link href="css/desktop.min.css" rel="stylesheet" media="all and (min-width: 600px)">
+        <script defer src="js/main.js"></script>
     </head>
     <body>
-        <section>
-            
+        <section class="comments">
+            <div class="comments__header">
+                <button class="comments-header__button-plus">
+                    <img alt="Añadir comentario" class="comments-header__button-plus-img" src="img/add-outline.svg"> 
+                </button>
+                <p class="comments-header__count">
+                   {{ total }} comentarios 
+                </p>
+            </div>
+            <div v-for="comment in comments" class="comment">
+                <div class="comment__header">
+                    <div class="comment__create-at">
+                        {{ comment.date }}
+                    </div>
+                    <div class="comment__author">
+                        {{ comment.author }}
+                    </div>
+                    <button class="comment__reply">
+                        <img class="comment__reply-img" alt="Replicar" src="img/reply.svg">
+                    </button>
+                </div> 
+                <hr class="comment__line">
+                <div class="comment__content" v-html="comment.content"></div>
+            </div>
+            <div v-if="showNewComment" class="new-comment">
+                Nuevo comentario
+            </div>
         </section>
     </body>
 </html>
