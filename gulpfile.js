@@ -1,4 +1,4 @@
-const { series, parallel, src, dest } = require('gulp');
+const { series, parallel, src, dest, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
 const clean = require('gulp-clean');
 const babel = require('gulp-babel');
@@ -29,7 +29,8 @@ function cleanOld(cb) {
 function html(cb) {
     return src(SRC_PATH + '/*.html')
         .pipe(htmlmin({ collapseWhitespace: true }))
-        .pipe(dest(DEST_PATH));
+        .pipe(dest(DEST_PATH))
+        .pipe(browserSync.stream()) ;
 }
 
 function js(cb) {
@@ -39,19 +40,26 @@ function js(cb) {
             presets: ['@babel/env']
         }))
         .pipe(uglify())
-        .pipe(dest(DEST_PATH + '/js/'));
+        .pipe(dest(DEST_PATH + '/js/'))
+        .pipe(browserSync.stream()) ;
 }
 
 function sassCompile(cb) {
     return src([SRC_PATH + '/sass/desktop.sass', SRC_PATH + '/sass/mobile.sass'])
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(rename({ extname: '.min.css' }))
-        .pipe(dest(DEST_PATH + '/css/'));
+        .pipe(dest(DEST_PATH + '/css/'))
+        .pipe(browserSync.stream()) ;
 }
 
 // Tasks
 const build = series(cleanOld, parallel(html, js, sassCompile));
 
-// Exports
-exports.dev = series(build, initBrowserSync);
+exports.dev = function () {
+    watch(SRC_PATH + '/*.html', html);
+    watch(SRC_PATH + '/js/*.js', js);
+    watch([SRC_PATH + '/sass/desktop.sass', SRC_PATH + '/sass/mobile.sass'], sassCompile);
+    initBrowserSync();
+}
+
 exports.default = build;
