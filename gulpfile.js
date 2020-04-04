@@ -17,10 +17,14 @@ const htmlmin = require('gulp-htmlmin');
 //===
 const SRC_PATH = 'src';
 const DEST_PATH = 'dist';
-const REQUIRE_JS = [
- 'node_modules/vue/dist/vue.min.js'
-];
 const DIST_JS = 'glosa.min.js';
+const DIST_JS_VENDORS = `${DEST_PATH}/js/vendors/`;
+const VENDOR_JS = [
+    "node_modules/vue/dist/vue.min.js",
+    "node_modules/axios/dist/axios.min.js",
+    "node_modules/ramda/dist/ramda.min.js"
+];
+
 
 //===
 // TASKS
@@ -53,7 +57,7 @@ function html(cb) {
 
 // JS concat + sourcemaps + babel + min
 function js(cb) {
-    return src(REQUIRE_JS.concat([SRC_PATH + '/js/*.js']))
+    return src([SRC_PATH + '/js/*.js'])
         .pipe(sourcemaps.init())
         .pipe(concat(DIST_JS))
         .pipe(babel({
@@ -63,6 +67,24 @@ function js(cb) {
         .pipe(sourcemaps.write('.'))
         .pipe(dest(DEST_PATH + '/js/'))
         .pipe(browserSync.stream()) ;
+}
+
+// JS vendors
+function jsVendors(cb) {
+    const tasks = VENDOR_JS.map(vendor => {
+        return (taskDone) => {
+            return src('.')
+                .pipe(exec(`mkdir -p ${DIST_JS_VENDORS}`))
+                .pipe(exec(`cp ${vendor} ${DEST_PATH}/js/vendors/`));
+            taskDone();
+
+        };
+    });
+
+    return series(...tasks, (seriesDone) => {
+        seriesDone();
+        cb();
+    })();
 }
 
 // Compile SASS + sourcemaps
@@ -80,10 +102,11 @@ function sassCompile(cb) {
 // Commands
 //===
 
-const build = series(cleanOld, parallel(html, js, sassCompile));
+const build = series(cleanOld, parallel(html, js, jsVendors, sassCompile));
 
 // gulp dev
 exports.dev = function () {
+    build();
     watch(SRC_PATH + '/*.html', html);
     watch(SRC_PATH + '/js/*.js', js);
     watch([SRC_PATH + '/sass/desktop.sass', SRC_PATH + '/sass/mobile.sass'], sassCompile);
