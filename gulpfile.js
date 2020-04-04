@@ -1,12 +1,36 @@
 const { series, parallel, src, dest } = require('gulp');
+const browserSync = require('browser-sync').create();
+const clean = require('gulp-clean');
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
 const concat = require('gulp-concat');
 const sass = require('gulp-sass');
+const htmlmin = require('gulp-htmlmin');
 
 const SRC_PATH = 'src';
 const DEST_PATH = 'dist';
+
+// Static server
+function initBrowserSync(cb) {
+    browserSync.init({
+        server: {
+            baseDir: "./" + DEST_PATH
+        }
+    });
+    return cb;
+}
+
+function cleanOld(cb) {
+    return src(DEST_PATH)
+        .pipe(clean());
+}
+
+function html(cb) {
+    return src(SRC_PATH + '/*.html')
+        .pipe(htmlmin({ collapseWhitespace: true }))
+        .pipe(dest(DEST_PATH));
+}
 
 function js(cb) {
     return src(SRC_PATH + '/js/*.js')
@@ -25,5 +49,9 @@ function sassCompile(cb) {
         .pipe(dest(DEST_PATH + '/css/'));
 }
 
-//exports.build = build;
-exports.default = parallel(js, sassCompile);
+// Tasks
+const build = series(cleanOld, parallel(html, js, sassCompile));
+
+// Exports
+exports.dev = series(build, initBrowserSync);
+exports.default = build;
