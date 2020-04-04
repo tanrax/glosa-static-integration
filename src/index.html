@@ -6,10 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
         <link href="css/mobile.min.css" rel="stylesheet" media="all and (max-width: 600px)">
         <link href="css/desktop.min.css" rel="stylesheet" media="all and (min-width: 600px)">
-        <script defer src="js/main.js"></script>
+        <script src="js/vendors/vue.min.js"></script>
+        <script src="js/vendors/axios.min.js"></script>
+        <script src="js/vendors/ramda.min.js"></script>
+        <script defer src="js/glosa.min.js"></script>
     </head>
     <body>
-        <section class="comments">
+        <section id="app-comments" class="comments">
             <div class="comments__header">
                 <button class="comments-header__button-plus">
                     <img alt="Añadir comentario" class="comments-header__button-plus-img" src="img/add-outline.svg"> 
