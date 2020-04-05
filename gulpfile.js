@@ -55,6 +55,15 @@ function html(cb) {
         .pipe(browserSync.stream()) ;
 }
 
+// IMGs
+function img(cb) {
+    return src(SRC_PATH + '/img/**/*')
+        .pipe(dest(DEST_PATH + '/img/'))
+        .pipe(browserSync.stream()) ;
+}
+
+
+
 // JS concat + sourcemaps + babel + min
 function js(cb) {
     return src([SRC_PATH + '/js/*.js'])
@@ -102,14 +111,15 @@ function sassCompile(cb) {
 // Commands
 //===
 
-const build = series(cleanOld, parallel(html, js, jsVendors, sassCompile));
+const build = series(cleanOld, parallel(html, img, js, jsVendors, sassCompile));
 
 // gulp dev
 exports.dev = function () {
     build();
     watch(SRC_PATH + '/*.html', html);
+    watch(SRC_PATH + '/**/*', img);
     watch(SRC_PATH + '/js/*.js', js);
-    watch([SRC_PATH + '/sass/desktop.sass', SRC_PATH + '/sass/mobile.sass'], sassCompile);
+    watch([SRC_PATH + '/sass/*.sass', SRC_PATH + '/sass/**/*.sass'], sassCompile);
     initBrowserSync();
 }
 
