@@ -14,11 +14,13 @@
     <body>
         <section id="app-comments" class="comments">
             <div class="comments__header">
-                <button class="comments-header__button-plus">
-                    <img alt="Añadir comentario" class="comments-header__button-plus-img" src="img/add-outline.svg"> 
-                </button>
+                <div>
+                    <button class="comments-header__button-plus">
+                        <img alt="Añadir comentario" class="comments-header__button-plus-img" src="img/add-outline.svg"> 
+                    </button>
+                </div>
                 <p class="comments-header__count">
-                   {{ total }} comentarios 
+                   {{ comments.length }} comentarios 
                 </p>
             </div>
             <div v-for="comment in comments" class="comment">
@@ -34,7 +36,7 @@
                     </button>
                 </div> 
                 <hr class="comment__line">
-                <div class="comment__content" v-html="comment.content"></div>
+                <div class="comment__content" v-html="comment.message"></div>
             </div>
             <div v-if="showNewComment" class="new-comment">
                 Nuevo comentario

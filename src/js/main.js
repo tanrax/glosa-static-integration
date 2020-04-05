@@ -1,10 +1,10 @@
-const URL_API = 'localhost:4000/api/v1/comments/';
+const URL_API = 'http://programadorwebvalencia.localhost:4000/api/v1';
+const ENDPOINT_COMMENTS_API = '/comments/';
 
 new Vue({
     el: '#app-comments',
     data: {
         comments: [],
-        total: 0,
         showNewComment: false
     },
     mounted: function () {
@@ -12,7 +12,19 @@ new Vue({
     },
     methods: {
         getComments: function () {
-            axios.get()
+            axios({
+                method: 'get',
+                url: URL_API + ENDPOINT_COMMENTS_API,
+                params: {
+                    url: this.getURL()
+                }
+            })
+                .then(response => {
+                    this.comments = response.data;
+                });
+        },
+        getURL: function () {
+            return 'https://programadorwebvalencia.com/cita-de-la-semana-7/';
         }
     }
 });
