@@ -15,7 +15,7 @@
         <section id="app-comments" class="comments">
             <div class="comments__header">
                 <div>
-                    <button class="comments-header__button-plus">
+                    <button @click="openNewComment(false)" class="button comments-header__button-plus">
                         <img alt="Añadir comentario" class="comments-header__button-plus-img" src="img/add-outline.svg"> 
                     </button>
                 </div>
@@ -23,20 +23,20 @@
                    {{ comments.length }} comentarios 
                 </p>
             </div>
-            <div v-for="comment in comments" class="comment">
+            <div v-for="comment in commentsParent" class="comment">
                 <div class="comment__header">
                     <div class="comment__create-at">
-                        {{ comment.date }}
+                        {{ formatDate(comment.createdAt) }}
                     </div>
                     <div class="comment__author">
                         {{ comment.author }}
                     </div>
-                    <button class="comment__reply">
+                    <button class="button comment__reply" @click="openNewComment(comment.id)">
                         <img class="comment__reply-img" alt="Replicar" src="img/reply.svg">
                     </button>
-                </div> 
+                </div>
                 <hr class="comment__line">
-                <div class="comment__content" v-html="comment.message"></div>
+                <div class="comment__content">{{ filterHTMLTags(comment.message) }}</div>
             </div>
             <div v-if="showNewComment" class="new-comment">
                 Nuevo comentario
