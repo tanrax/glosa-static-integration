@@ -23,7 +23,7 @@
                    {{ comments.length }} comentarios 
                 </p>
             </div>
-            <div v-for="comment in commentsParent" class="comment">
+            <div v-for="comment in commentsSortWithChilds" class="comment" :class="{ 'comment--child': comment.parent !== undefined }">
                 <div class="comment__header">
                     <div class="comment__create-at">
                         {{ formatDate(comment.createdAt) }}

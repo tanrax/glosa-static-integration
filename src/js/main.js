@@ -12,7 +12,10 @@ new Vue({
     },
     computed: {
         commentsParent: function() {
-            return this.comments.filter(item => item.parent === '');
+            return this.comments.filter(item => item.parent === undefined);
+        },
+        commentsSortWithChilds: function() {
+            return this.commentsParent.map(item => [].concat(item, this.getCommentsChilds(item.id))).flat();
         }
     },
     methods: {
@@ -28,8 +31,11 @@ new Vue({
                     this.comments = response.data;
                 });
         },
+        getCommentsChilds: function (parent) {
+            return this.comments.filter(item => item.parent === parent);
+        },
         getURL: function () {
-            return 'https://programadorwebvalencia.com/cita-de-la-semana-7/';
+            return 'https://programadorwebvalencia.com/cual-es-el-mejor-navegador-web-2020/';
         },
         formatDate: function (unixtime) {
             const DATE = new Date(unixtime * 1000);
