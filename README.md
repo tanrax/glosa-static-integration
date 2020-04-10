@@ -23,7 +23,7 @@ gulp
 
 ## Glosa API - Heart necessary to save and get the comments
 
-https://github.com/tanrax/glosa/
+https://github.com/glosa/glosa-server/
 
 ## Thanks
 
