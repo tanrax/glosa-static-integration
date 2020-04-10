@@ -5,17 +5,16 @@ new Vue({
     el: '#app-comments',
     data: {
         comments: [],
-        showNewComment: false
+        showNewComment: false,
+        parents: [],
+        maxDeep: 4
     },
     mounted: function () {
         this.getComments();
     },
     computed: {
-        commentsParent: function() {
-            return this.comments.filter(item => item.parent === undefined);
-        },
         commentsSortWithChilds: function() {
-            return this.commentsParent.map(item => [].concat(item, this.getCommentsChilds(item.id))).flat();
+            return this.comments.filter(item => this.getDeep(item.id) === 0).map(item => [].concat(item, this.getCommentsChilds(item.id, 1))).flat();
         }
     },
     methods: {
@@ -31,8 +30,33 @@ new Vue({
                     this.comments = response.data;
                 });
         },
-        getCommentsChilds: function (parent) {
+        getCommentsChilds: function (parent, deep) {
             return this.comments.filter(item => item.parent === parent);
+        },
+        getSingleComment: function (id) {
+            return R.head(R.filter((item) => item.id === id, this.comments));
+        },
+        getDeep: function (id) {
+            // Get commet by id
+            const COMMENT = this.getSingleComment(id);
+            if (!R.isNil(COMMENT)) {
+                // Parent
+                if (R.isNil(COMMENT.parent)) {
+                    // Count deep
+                    const totalDeep = R.length(this.parents);
+                    // Reset parents
+                    this.parents = [];
+                    // Return deep
+                    return totalDeep;
+                } else {
+                    // Calculate deep
+                    //// Add id to parents
+                    this.parents = R.append(id, this.parents);
+                    //// Search next parent
+                    return this.getDeep(COMMENT.parent);
+                }
+            }
+            return undefined;
         },
         getURL: function () {
             return 'https://programadorwebvalencia.com/cual-es-el-mejor-navegador-web-2020/';
@@ -48,7 +72,7 @@ new Vue({
         },
         openNewComment: function (parent = '') {
             this.showNewComment = true;
-            console.log(parent)
+            console.log(parent);
         }
     }
 });
