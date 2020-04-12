@@ -13,6 +13,8 @@
     </head>
     <body>
         <section id="app-comments" class="comments">
+
+            <!-- Head -->
             <div class="comments__header">
                 <div>
                     <button @click="openNewComment(false)" class="button comments-header__button-plus">
@@ -23,24 +25,55 @@
                    {{ comments.length }} comentarios 
                 </p>
             </div>
-            <div v-for="comment in commentsSortWithChilds" class="comment" :class="{ 'comment--child': comment.parent !== undefined }">
-                <div class="comment__header">
-                    <div class="comment__create-at">
-                        {{ formatDate(comment.createdAt) }}
-                    </div>
-                    <div class="comment__author">
-                        {{ comment.author }}
-                    </div>
-                    <button class="button comment__reply" @click="openNewComment(comment.id)">
-                        <img class="comment__reply-img" alt="Replicar" src="img/reply.svg">
-                    </button>
-                </div>
-                <hr class="comment__line">
-                <div class="comment__content">{{ filterHTMLTags(comment.message) }}</div>
-            </div>
+            <!-- End head -->
+
+            <!-- Comments -->
+            <comment v-for="comment in comments" :fields="comment" />
+            <!-- End Comments -->
+
+            <!-- New comment -->
             <div v-if="showNewComment" class="new-comment">
                 Nuevo comentario
             </div>
+            <!-- End new comment -->
+
         </section>
+
+        <!-- Template comment  -->
+        <template id="comment">
+            <div class="comment" :class="`comment--child-${fields.deep}`">
+                <div class="comment__header">
+
+                    <!-- Date -->
+                    <div class="comment__create-at">
+                        {{ formatDate(fields.createdAt) }}
+                    </div>
+                    <!-- End date -->
+
+                    <!-- Author -->
+                    <div class="comment__author">
+                        {{ fields.author }}
+                    </div>
+                    <!-- End author -->
+
+                    <!-- Button new comment -->
+                    <button class="button comment__reply" @click="openNewComment(comment.id)">
+                        <img class="comment__reply-img" alt="Replicar" src="img/reply.svg">
+                    </button>
+                    <!-- End button new comment -->
+
+                </div>
+
+                <!-- Separator -->
+                <hr class="comment__line">
+                <!-- End separator -->
+
+                <!-- Content -->
+                <div class="comment__content">{{ filterHTMLTags(fields.message) }}</div>
+                <!-- End content -->
+            </div>
+        </template>
+        <!-- End template comment
+
     </body>
 </html>
