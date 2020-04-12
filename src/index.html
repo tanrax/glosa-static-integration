@@ -57,7 +57,7 @@
                     <!-- End author -->
 
                     <!-- Button new comment -->
-                    <button class="button comment__reply" @click="openNewComment(comment.id)">
+                    <button class="button comment__reply" @click="openNewComment(id)">
                         <img class="comment__reply-img" alt="Replicar" src="img/reply.svg">
                     </button>
                     <!-- End button new comment -->
@@ -72,7 +72,7 @@
                 <div class="comment__content">{{ filterHTMLTags(fields.message) }}</div>
                 <!-- End content -->
 
-                <comment v-for="child in childs" :id="child.id" :comments="comments" class="comment--child" />
+                <comment v-for="child in childs" :id="child.id" :comments="comments" :class="{ 'comment--child': child.deep <= maxDeep }" />
             </div>
         </template>
         <!-- End template comment -->

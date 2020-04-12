@@ -6,6 +6,11 @@ Vue.component('comment', {
         id: Number,
         comments: Object
     },
+    data: function () {
+        return {
+            maxDeep: 4
+        };
+    },
     template: document.querySelector('template#comment').innerHTML,
     computed: {
         fields: function () {
@@ -24,6 +29,9 @@ Vue.component('comment', {
             let myElement = document.createElement('div');
             myElement.innerHTML = text;
             return myElement.textContent;
+        },
+        openNewComment: function (id) {
+            this.$emit('openComment', id);
         }
     }
 });
@@ -32,8 +40,7 @@ new Vue({
     el: '#app-comments',
     data: {
         comments: [],
-        showNewComment: false,
-        maxDeep: 4
+        showNewComment: false
     },
     mounted: function () {
         this.getComments();
@@ -65,9 +72,9 @@ new Vue({
         getURL: function () {
             return 'https://programadorwebvalencia.com/cual-es-el-mejor-navegador-web-2020/';
         },
-        openNewComment: function (parent = '') {
+        openNewComment: function (id) {
             this.showNewComment = true;
-            console.log(parent);
+            console.log(id);
 
         }
     }
