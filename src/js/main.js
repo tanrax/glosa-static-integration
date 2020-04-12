@@ -7,12 +7,12 @@ Vue.component('comment', {
         comments: Object
     },
     template: document.querySelector('template#comment').innerHTML,
-    computeds: {
+    computed: {
         fields: function () {
             return R.head(R.filter((item) => item.id === this.id, this.comments));
         },
         childs: function () {
-            return R.filter(item => item.parent === id, this.comments);
+            return R.filter(item => item.parent === this.id, this.comments);
         }
     },
     methods: {
@@ -24,7 +24,7 @@ Vue.component('comment', {
             let myElement = document.createElement('div');
             myElement.innerHTML = text;
             return myElement.textContent;
-        },
+        }
     }
 });
 
