@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="UTF-8"/>
         <title>Glosa static integration</title>
@@ -17,7 +17,7 @@
             <!-- Head -->
             <div class="comments__header">
                 <div>
-                    <button @click="openNewComment(false)" class="button comments-header__button-plus">
+                    <button @click="openNewComment()" class="button comments-header__button-plus">
                         <img alt="Añadir comentario" class="comments-header__button-plus-img" src="img/add-outline.svg">
                     </button>
                 </div>
@@ -27,15 +27,20 @@
             </div>
             <!-- End head -->
 
-            <!-- Comments -->
-            <comment v-for="comment in commentsParent" :id="comment.id" :comments="comments" />
-            <!-- End Comments -->
-
             <!-- New comment -->
             <div v-if="showNewComment" class="new-comment">
                 Nuevo comentario
+                {{ reply }}
+                <input name="" type="text" value=""/>
+                <textarea></textarea>
+                <button type="button">Submit</button>
             </div>
             <!-- End new comment -->
+
+
+            <!-- Comments -->
+            <comment v-for="comment in commentsParent" :id="comment.id" :comments="comments" />
+            <!-- End Comments -->
 
         </section>
 
@@ -52,12 +57,12 @@
 
                     <!-- Author -->
                     <div class="comment__author">
-                        {{ fields.author }}
+                        {{ formatEllipsisAuthor(fields.author) }}
                     </div>
                     <!-- End author -->
 
                     <!-- Button new comment -->
-                    <button class="button comment__reply" @click="openNewComment(id)">
+                    <button class="button comment__reply" @click="openReply(id)">
                         <img class="comment__reply-img" alt="Replicar" src="img/reply.svg">
                     </button>
                     <!-- End button new comment -->
@@ -72,7 +77,7 @@
                 <div class="comment__content">{{ filterHTMLTags(fields.message) }}</div>
                 <!-- End content -->
 
-                <comment v-for="child in childs" :id="child.id" :comments="comments" :class="{ 'comment--child': child.deep <= maxDeep }" />
+                <comment v-for="child in childs" :id="child.id" :comments="comments"  :class="{ 'comment--child': child.deep <= maxDeep }" />
             </div>
         </template>
         <!-- End template comment -->
