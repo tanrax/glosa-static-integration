@@ -2,8 +2,19 @@ const URL_API = 'http://programadorwebvalencia.localhost:4000/api/v1';
 const ENDPOINT_COMMENTS_API = '/comments/';
 
 Vue.component('comment', {
-    props: ['fields'],
+    props: {
+        id: Number,
+        comments: Object
+    },
     template: document.querySelector('template#comment').innerHTML,
+    computeds: {
+        fields: function () {
+            return R.head(R.filter((item) => item.id === this.id, this.comments));
+        },
+        childs: function () {
+            return R.filter(item => item.parent === id, this.comments);
+        }
+    },
     methods: {
         formatDate: function (unixtime) {
             const DATE = new Date(unixtime * 1000);
@@ -28,6 +39,9 @@ new Vue({
         this.getComments();
     },
     computed: {
+        commentsParent: function () {
+            return R.filter(item => item.deep === 0, this.comments);
+        },
     },
     methods: {
         getComments: function () {
@@ -42,8 +56,8 @@ new Vue({
                     this.comments = response.data;
                 });
         },
-        getCommentsChilds: function (parent, deep) {
-            return this.comments.filter(item => item.parent === parent);
+        getCommentsChilds: function (id) {
+            return R.filter(item => item.parent === id, this.comments);
         },
         getSingleComment: function (id) {
             return R.head(R.filter((item) => item.id === id, this.comments));
@@ -54,6 +68,7 @@ new Vue({
         openNewComment: function (parent = '') {
             this.showNewComment = true;
             console.log(parent);
+
         }
     }
 });

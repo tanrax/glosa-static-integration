@@ -18,17 +18,17 @@
             <div class="comments__header">
                 <div>
                     <button @click="openNewComment(false)" class="button comments-header__button-plus">
-                        <img alt="Añadir comentario" class="comments-header__button-plus-img" src="img/add-outline.svg"> 
+                        <img alt="Añadir comentario" class="comments-header__button-plus-img" src="img/add-outline.svg">
                     </button>
                 </div>
                 <p class="comments-header__count">
-                   {{ comments.length }} comentarios 
+                   {{ comments.length }} comentarios
                 </p>
             </div>
             <!-- End head -->
 
             <!-- Comments -->
-            <comment v-for="comment in comments" :fields="comment" />
+            <comment v-for="comment in commentsParent" :id="comment.id" :comments="comments" />
             <!-- End Comments -->
 
             <!-- New comment -->
@@ -41,7 +41,7 @@
 
         <!-- Template comment  -->
         <template id="comment">
-            <div class="comment" :class="`comment--child-${fields.deep}`">
+            <div class="comment">
                 <div class="comment__header">
 
                     <!-- Date -->
@@ -71,9 +71,11 @@
                 <!-- Content -->
                 <div class="comment__content">{{ filterHTMLTags(fields.message) }}</div>
                 <!-- End content -->
+
+                <comment v-for="child in getCommentsChilds(id)" :id="id" :comments="comments" class="comment--child" />
             </div>
         </template>
-        <!-- End template comment
+        <!-- End template comment -->
 
     </body>
 </html>
