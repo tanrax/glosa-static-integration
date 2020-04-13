@@ -1,4 +1,22 @@
 .new-comment
-  background: red
+  background: $color-gray
   z-index: 2000
+  padding: 1rem
   @include pin
+  &__header
+    display: grid
+    grid-template-columns: 1fr auto
+  &__button-close
+    display: block
+    $size: 3rem
+    width: $size
+    height: $size
+  &__title
+    display: flex
+    justify-content: flex-end
+    align-items: center
+    margin: 0
+    color: $color-orange
+    font-size: 1.3rem
+
+

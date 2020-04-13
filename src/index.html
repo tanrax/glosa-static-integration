@@ -29,6 +29,19 @@
 
             <!-- New comment -->
             <div v-if="showNewComment" class="new-comment">
+                <div class="new-comment__header">
+                    <div>
+                        <button @click="closeNewComment()" class="button new-comment__button-close">
+                            <img alt="Cerrar" class="new-comment__button-close" src="img/close.svg">
+                        </button>
+                    </div>
+                    <p v-if="reply === undefined" class="new-comment__title">
+                        Nuevo comentario
+                    </p>
+                    <p v-else class="new-comment__title">
+                        Nueva replica a <strong>{{ formatEllipsisAuthor(replyComment.author) }}</strong>
+                    </p>
+                </div
                 Nuevo comentario
                 {{ reply }}
                 <input name="" type="text" value=""/>

@@ -2,13 +2,22 @@ const URL_API = 'http://programadorwebvalencia.localhost:4000/api/v1';
 const ENDPOINT_COMMENTS_API = '/comments/';
 
 /**
+  * Main
+  */
+const MAX_LENGTH_AUTHOR = 15;
+
+function formatEllipsisAuthor(text) {
+    return text.length > MAX_LENGTH_AUTHOR ? `${text.slice(0, MAX_LENGTH_AUTHOR - 3)}...` : text;
+}
+
+/**
   * Vue APP
  **/
 let app = new Vue({
     el: '#app-comments',
     data: {
         comments: [],
-        showNewComment: false,
+        showNewComment: true,
         reply: undefined
     },
     mounted: function () {
@@ -18,6 +27,9 @@ let app = new Vue({
         commentsParent: function () {
             return R.filter(item => item.deep === 0, this.comments);
         },
+        replyComment: function () {
+            return R.head(R.filter(comment => comment.id === this.reply, this.comments));
+        }
     },
     methods: {
         getComments: function () {
@@ -41,7 +53,12 @@ let app = new Vue({
         openNewComment: function (id = undefined) {
             this.reply = id;
             this.showNewComment = true;
-        }
+        },
+        closeNewComment: function () {
+            this.reply = undefined;
+            this.showNewComment = false;
+        },
+        formatEllipsisAuthor: formatEllipsisAuthor,
     }
 });
 
@@ -55,8 +72,7 @@ Vue.component('comment', {
     },
     data: function () {
         return {
-            maxDeep: 4,
-            maxLengthAuthor: 15
+            maxDeep: 4
         };
     },
     template: document.querySelector('template#comment').innerHTML,
@@ -73,9 +89,6 @@ Vue.component('comment', {
             const DATE = new Date(unixtime * 1000);
             return `${DATE.getDate()}/${DATE.getMonth() + 1}/${DATE.getFullYear()}`;
         },
-        formatEllipsisAuthor: function (text) {
-            return text.length > this.maxLengthAuthor ? `${text.slice(0, this.maxLengthAuthor - 3)}...` : text;
-        },
         filterHTMLTags: function (text) {
             let myElement = document.createElement('div');
             myElement.innerHTML = text;
@@ -83,6 +96,7 @@ Vue.component('comment', {
         },
         openReply: function (id) {
             app.openNewComment(id);
-        }
+        },
+        formatEllipsisAuthor: formatEllipsisAuthor
     }
 });
