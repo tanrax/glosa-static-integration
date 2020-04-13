@@ -55,8 +55,10 @@ let app = new Vue({
             this.showNewComment = true;
         },
         closeNewComment: function () {
-            this.reply = undefined;
             this.showNewComment = false;
+            setTimeout(() => {
+                this.reply = undefined;
+            }, 500);
         },
         formatEllipsisAuthor: formatEllipsisAuthor,
     }

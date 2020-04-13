@@ -28,7 +28,7 @@
             <!-- End head -->
 
             <!-- New comment -->
-            <div v-if="showNewComment" class="new-comment">
+            <div class="new-comment" :class="{ 'show': showNewComment }">
                 <div class="new-comment__header">
                     <div>
                         <button @click="closeNewComment()" class="button new-comment__button-close">
@@ -44,13 +44,13 @@
                 </div>
                 <form>
                     <p>
-                        <input class="new-comment__author" type="text" />
+                        <input maxlength="20" class="new-comment__author" type="text" placeholder="Nombre..." />
                     </p>
                     <p>
-                        <textarea class="new-comment__content"></textarea>
+                        <textarea class="new-comment__content" placeholder="Mensaje..."></textarea>
                     </p>
-                    <p>
-                        <button class="new-comment__submit" type="button">Submit</button>
+                    <p class="new-comment__content-submit">
+                        <button class="new-comment__submit" type="button">Publicar</button>
                     </p>
                 </form>
             </div>
