@@ -13,9 +13,7 @@
     margin-bottom: 1rem
   &__button-close
     display: block
-    $size: 2rem
-    width: $size
-    height: $size
+    @include sizeCube(2rem)
     margin-right: 1rem
   &__title
     display: flex
@@ -26,12 +24,15 @@
     font-size: 1.3rem
   &__author, &__content
     border-radius: 0
-    border: 3px solid $color-orange
-    width: calc(100% - 4px - 2rem)
+    @include border(2px, $color-orange)
+    width: calc(100% - 2rem)
     padding: 1rem
-    font-size: 1.3rem
+    font-size: 1rem
+    resize: none
+    &:focus
+      outline: none
   &__content
-    min-height: 40vh
+    min-height: 30vh
   &__content-submit
     text-align: center
   &__submit
@@ -42,5 +43,20 @@
     text-transform: uppercase
     margin-top: 1rem
     font-size: 1.3rem
-
-
+    transition: 1s
+    &::-moz-focus-inner, &:focus
+      border: 0
+      outline: none
+    &:disabled
+      opacity: .5
+    &--loading
+      @include sizeCube(5rem)
+      padding: 0
+      font-size: 0
+      border-radius: 50%
+      border: 5px dashed $color-white
+      @include animationRotate(4s)
+    &--success
+      @include animationPulse(1s, 2rem, $color-green, 1)
+    &--error
+      @include animationPulse(1s, 2rem, $color-red, 1)

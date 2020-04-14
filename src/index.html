@@ -44,13 +44,17 @@
                 </div>
                 <form>
                     <p>
-                        <input maxlength="20" class="new-comment__author" type="text" placeholder="Nombre..." />
+                        <input v-model="newCommentAuthor" :disabled="this.loadingNewComment" maxlength="20" class="new-comment__author" type="text" placeholder="Nombre..." />
                     </p>
                     <p>
-                        <textarea class="new-comment__content" placeholder="Mensaje..."></textarea>
+                        <textarea v-model="newCommentContent" :disabled="this.loadingNewComment" class="new-comment__content" placeholder="Mensaje..."></textarea>
                     </p>
                     <p class="new-comment__content-submit">
-                        <button class="new-comment__submit" type="button">Publicar</button>
+                        <button class="new-comment__submit" type="button" @click="sendNewComment" :class="{ 'new-comment__submit--loading': loadingNewComment, 'new-comment__submit--success': stateNewComment === 'success', 'new-comment__submit--error': stateNewComment === 'error' }" :disabled="!isSubmit">
+                            <span v-if="!loadingNewComment && stateNewComment === undefined">Publicar</span>
+                            <span v-else-if="stateNewComment === 'success'">¡Publicado!</span>
+                            <span v-else-if="stateNewComment === 'error'">¡Ups! No se ha podido.</span>
+                        </button>
                     </p>
                 </form>
             </div>

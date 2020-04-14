@@ -18,7 +18,11 @@ let app = new Vue({
     data: {
         comments: [],
         showNewComment: true,
-        reply: undefined
+        reply: undefined,
+        newCommentAuthor: '',
+        newCommentContent: '',
+        loadingNewComment: false,
+        stateNewComment: undefined
     },
     mounted: function () {
         this.getComments();
@@ -29,6 +33,9 @@ let app = new Vue({
         },
         replyComment: function () {
             return R.head(R.filter(comment => comment.id === this.reply, this.comments));
+        },
+        isSubmit: function () {
+            return this.newCommentAuthor !== '' && this.newCommentContent !== '';
         }
     },
     methods: {
@@ -61,6 +68,10 @@ let app = new Vue({
             }, 500);
         },
         formatEllipsisAuthor: formatEllipsisAuthor,
+        sendNewComment: function () {
+            //this.stateNewComment = 'error';
+            this.loadingNewComment = true;
+        }
     }
 });
 

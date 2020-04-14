@@ -1,6 +1,53 @@
-@mixin pin
+@mixin pin()
   position: fixed
   top: 0
   left: 0
   right: 0
   bottom: 0
+
+@mixin sizeCube($size: 1rem)
+  width: $size
+  height: $size
+
+/*
+ * $size: all, top, right, bottom, left
+ */
+@mixin border($size: 1px, $color: black, $side: all)
+  border: 0
+  -webkit-appearance: none
+  @if $side == 'all'
+    box-shadow: inset 0 0 0 $size $color
+  @else if $side == 'top'
+    box-shadow: inset 0 $size 0 0 $color
+  @else if $side == 'right'
+    box-shadow: inset -#{$size} 0 0 0 $color
+  @else if $side == 'left'
+    box-shadow: inset $size 0 0 0 $color
+  @else if $side == 'bottom'
+    box-shadow: inset 0 -#{$size} 0 0 $color
+
+@mixin animationRotate($speed: 1s)
+  $id: unique-id()
+  @keyframes#{$id}
+      from
+        transform: rotate(0)
+      to
+        transform: rotate(360deg)
+  animation:
+    name: animationRotate
+    duration: $speed
+    iteration-count: infinite
+    timing-function: linear
+
+@mixin animationPulse($speed: 1s, $size: 1rem, $color: black, $iteration: infinite)
+  $id: unique-id()
+  @keyframes #{$id}
+      from
+        box-shadow: 0 0 0 0 $color
+      to
+        box-shadow: 0 0 0 $size transparentize($color, 1)
+  animation:
+    name: $id
+    duration: $speed
+    iteration-count: $iteration
+    timing-function: linear
