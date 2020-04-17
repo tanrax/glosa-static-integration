@@ -53,7 +53,7 @@
                         <button class="new-comment__submit" type="button" @click="sendNewComment" :class="{ 'new-comment__submit--loading': loadingNewComment, 'new-comment__submit--success': stateNewComment === 'success', 'new-comment__submit--error': stateNewComment === 'error' }" :disabled="!isSubmit">
                             <span v-if="!loadingNewComment && stateNewComment === undefined">Publicar</span>
                             <span v-else-if="stateNewComment === 'success'">¡Publicado!</span>
-                            <span v-else-if="stateNewComment === 'error'">¡Ups! No se ha podido.</span>
+                            <span v-else-if="stateNewComment === 'error'">¡Ups! Algo ha fallado, ¿Reintentamos?</span>
                             <span v-else>Enviando...</span>
                         </button>
                     </p>

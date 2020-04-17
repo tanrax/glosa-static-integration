@@ -80,6 +80,9 @@ let app = new Vue({
                 .catch(error => {
                     console.log(error);
                     this.stateNewComment = 'error';
+                    setTimeout(() => {
+                        this.stateNewComment = undefined;
+                    }, ANIMATION_CLOSE_FORM_SEND);
                 })
                 .then(() => {
                     // always executed
