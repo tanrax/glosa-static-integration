@@ -50,7 +50,7 @@
     &:disabled
       opacity: .5
     &--loading
-      opacity: .5
+      @include animationOpacity()
     &--success
       background-color: $color-green
       @include animationPulse(1s, 2rem, $color-green, 1)
