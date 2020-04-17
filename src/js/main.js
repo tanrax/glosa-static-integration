@@ -1,5 +1,8 @@
 const URL_API = 'http://programadorwebvalencia.localhost:4000/api/v1';
 const ENDPOINT_COMMENTS_API = '/comments/';
+const ENDPOINT_GET_TOKEN_API = '/captcha/';
+const ANIMATION_CLOSE_FORM_SEND = 2000;
+const ANIMATION_CLOSE_FORM = 500;
 
 /**
   * Main
@@ -17,8 +20,10 @@ let app = new Vue({
     el: '#app-comments',
     data: {
         comments: [],
-        showNewComment: true,
+        token: undefined,
+        showNewComment: false,
         reply: undefined,
+        newCommentParent: undefined,
         newCommentAuthor: '',
         newCommentContent: '',
         loadingNewComment: false,
@@ -35,7 +40,7 @@ let app = new Vue({
             return R.head(R.filter(comment => comment.id === this.reply, this.comments));
         },
         isSubmit: function () {
-            return this.newCommentAuthor !== '' && this.newCommentContent !== '';
+            return this.newCommentAuthor !== '' && this.newCommentAuthor !== undefined && this.newCommentContent !== '' && this.newCommentContent !== undefined;
         }
     },
     methods: {
@@ -48,7 +53,50 @@ let app = new Vue({
                 }
             })
                 .then(response => {
-                    this.comments = response.data;
+                    this.comments = R.reverse(response.data);
+                    // Close form new comment
+                    setTimeout(() => {
+                        this.closeNewComment();
+                    }, ANIMATION_CLOSE_FORM);
+                });
+        },
+        addComment: function () {
+            this.loadingNewComment = true;
+            axios({
+                method: 'post',
+                url: URL_API + ENDPOINT_COMMENTS_API,
+                data: {
+                    parent: this.newCommentParent,
+                    token: this.token,
+                    author: this.newCommentAuthor,
+                    message: this.newCommentContent,
+                    thread: this.getURL()
+                }
+            })
+                .then(response => {
+                    this.stateNewComment = 'success';
+                    this.getComments();
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.stateNewComment = 'error';
+                })
+                .then(() => {
+                    // always executed
+                    this.loadingNewComment = false;
+                });
+
+        },
+        getToken: function () {
+            axios({
+                method: 'get',
+                url: URL_API + ENDPOINT_GET_TOKEN_API,
+                params: {
+                    url: this.getURL()
+                }
+            })
+                .then(response => {
+                    this.token = response.data.token;
                 });
         },
         getCommentsChilds: function (id) {
@@ -58,19 +106,26 @@ let app = new Vue({
             return 'https://programadorwebvalencia.com/cual-es-el-mejor-navegador-web-2020/';
         },
         openNewComment: function (id = undefined) {
+            this.getToken();
             this.reply = id;
             this.showNewComment = true;
+            this.newCommentParent = id !== undefined ? id : '';
         },
         closeNewComment: function () {
+            // Clean data
             this.showNewComment = false;
+            // Hide reply finish animation
             setTimeout(() => {
+                this.newCommentParent = undefined;
+                this.newCommentAuthor = undefined;
+                this.newCommentContent = undefined;
                 this.reply = undefined;
-            }, 500);
+                this.stateNewComment = undefined;
+            }, ANIMATION_CLOSE_FORM);
         },
         formatEllipsisAuthor: formatEllipsisAuthor,
         sendNewComment: function () {
-            //this.stateNewComment = 'error';
-            this.loadingNewComment = true;
+            this.addComment();
         }
     }
 });
@@ -108,6 +163,7 @@ Vue.component('comment', {
             return myElement.textContent;
         },
         openReply: function (id) {
+            app.getToken();
             app.openNewComment(id);
         },
         formatEllipsisAuthor: formatEllipsisAuthor

@@ -54,6 +54,7 @@
                             <span v-if="!loadingNewComment && stateNewComment === undefined">Publicar</span>
                             <span v-else-if="stateNewComment === 'success'">¡Publicado!</span>
                             <span v-else-if="stateNewComment === 'error'">¡Ups! No se ha podido.</span>
+                            <span v-else>Enviando...</span>
                         </button>
                     </p>
                 </form>
