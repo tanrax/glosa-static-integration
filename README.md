@@ -1,4 +1,7 @@
-# Glosa - example static integration
+<p align="center">
+  <img src="media/logo.png" alt="logo" width="200"> 
+</p>
+<h1 align="center">Glosa.js: Example client in Javascript.</h1>
 
 ## Compile
 
