@@ -1,24 +1,19 @@
-# Glosa - static integration
+# Glosa - example static integration
 
-## Development
-
-### Install
+## Compile
 
 ``` sh
 npm i gulp-cli -g
 npm i
+gulp
 ```
 
-### Autorefresh
+All documents will be in the `dist/`.
+
+## Development
 
 ``` sh
 gulp dev
-```
-
-### Compile
-
-``` sh
-gulp
 ```
 
 ## Glosa API - Heart necessary to save and get the comments
