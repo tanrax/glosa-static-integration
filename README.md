@@ -19,7 +19,7 @@ All documents will be in the `dist/`.
 gulp dev
 ```
 
-## Glosa API - Heart necessary to save and get the comments
+## Glosa - Heart necessary to save and get the comments
 
 https://github.com/glosa/glosa-server/
 
