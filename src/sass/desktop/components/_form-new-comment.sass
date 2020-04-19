@@ -1,0 +1,60 @@
+.new-comment
+  background: $color-gray
+  z-index: 2000
+  padding: 1.5rem
+  @include pin
+  transition: .5s
+  transform: translateX(-100vw)
+  &.show
+    transform: translateX(0)
+  &__header
+    display: grid
+    grid-template-columns: 1fr auto
+    margin-bottom: 1rem
+  &__button-close
+    display: block
+    @include sizeCube(2rem)
+    margin-right: 1rem
+  &__title
+    display: flex
+    justify-content: flex-end
+    align-items: center
+    margin: 0
+    color: $color-orange
+    font-size: 1.3rem
+  &__author, &__content
+    border-radius: 0
+    @include border(2px, $color-orange)
+    width: calc(100% - 2rem)
+    padding: 1rem
+    font-size: 1rem
+    resize: none
+    &:focus
+      outline: none
+  &__content
+    min-height: 30vh
+  &__content-submit
+    text-align: center
+  &__submit
+    background-color: $color-orange
+    border: 0
+    padding: 1rem 3rem
+    color: $color-white
+    text-transform: uppercase
+    margin-top: 1rem
+    font-size: 1.3rem
+    transition: 1s
+    &::-moz-focus-inner, &:focus
+      border: 0
+      outline: none
+    &:disabled
+      opacity: .5
+    &--loading
+      @include animationOpacity()
+    &--success
+      background-color: $color-green
+      @include animationPulse(1s, 2rem, $color-green, 1)
+    &--error
+      background-color: $color-red
+      @include animationPulse(1s, 2rem, $color-red, 1)
+

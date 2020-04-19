@@ -1,4 +1,44 @@
+$width-header: 10rem
 .comment
+  display: flex
+  flex-wrap: wrap
+  font-size: 1rem
+  margin-bottom: 1rem
+  &--child
+    flex-basis: 100%
+    margin-left: calc(#{$width-header} + 1rem)
+  &--child > &__header
+    border-top: 2px solid $color-orange
   &__header
     display: grid
-    grid-template-columns: repeat(3, 1fr)
+    grid-template-rows: repeat(3, auto)
+    grid-gap: .5rem
+    width: $width-header
+    align-items: center
+    border-right: 2px solid $color-orange
+    padding-right: 1rem
+  &__create-at
+    grid-row: 2 / 3
+    font-size: 1rem
+    text-align: center
+    color: $color-gray
+  &__author
+    grid-row: 1 / 2
+    margin-top: 1rem
+    font-size: 1rem
+    text-align: center
+    font-weight: bold
+  &__reply
+    grid-row: 3 / 4
+    text-align: right
+    &-img
+      width: 2rem
+  &__line
+    display: none
+  &__content
+    margin: 1rem 0
+    padding-left: 3rem
+    display: flex
+    align-items: center
+    flex: 1
+

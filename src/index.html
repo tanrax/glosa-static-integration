@@ -63,7 +63,9 @@
 
 
             <!-- Comments -->
-            <comment v-for="comment in commentsParent" :id="comment.id" :comments="comments" />
+            <div class="comments__list">
+                <comment v-for="comment in commentsParent" :id="comment.id" :comments="comments" />
+            </div>
             <!-- End Comments -->
 
         </section>
