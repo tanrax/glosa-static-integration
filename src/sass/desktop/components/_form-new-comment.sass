@@ -1,10 +1,12 @@
 .new-comment
   transition: .5s
   width: 0
+  overflow-x: hidden
   &__position
     position: sticky
-    top: 0
+    top: 4rem
   &.show
+    overflow-x: initial
     padding: 2rem
     width: 20rem
   &__header
