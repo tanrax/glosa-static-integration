@@ -5,9 +5,27 @@
 
 ## Compile
 
+1) It indicates in `main.js`, in the variable `URL_API` , where Glosa is running.
+
+``` javascript
+const URL_API = 'https://example.com';
+```
+
+2) Install gulp
+
 ``` sh
 npm i gulp-cli -g
+```
+
+3) Install dependencies.
+
+``` sh
 npm i
+```
+
+4) Compile.
+
+``` sh
 gulp
 ```
 
