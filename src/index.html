@@ -50,6 +50,13 @@
                         <p>
                             <textarea v-model="newCommentContent" :disabled="this.loadingNewComment" class="new-comment__content" placeholder="Mensaje..."></textarea>
                         </p>
+                        <div class="switch-button-policy">
+                            <!-- Checkbox -->
+                            <input v-model="policy" type="checkbox" name="switch-button" id="switch-label" class="switch-button__checkbox">
+                            <!-- Botón -->
+                            <label for="switch-label" class="switch-button__label"></label>
+                            <span class="switch-button-policy__text">Acepto la política de <a class="switch-button-policy__link" href="#">Protección de Datos</a>.</span>
+                        </div>
                         <p class="new-comment__content-submit">
                             <button class="new-comment__submit" type="button" @click="sendNewComment" :class="{ 'new-comment__submit--loading': loadingNewComment, 'new-comment__submit--success': stateNewComment === 'success', 'new-comment__submit--error': stateNewComment === 'error' }" :disabled="!isSubmit">
                                 <span v-if="!loadingNewComment && stateNewComment === undefined">Publicar</span>

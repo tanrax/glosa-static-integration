@@ -1,4 +1,4 @@
-const URL_API = 'http://localhost:4000';
+const URL_API = 'http://localhost:4000'; 
 //const URL_API = 'YOUR_IP or domain';
 const ENDPOINT_COMMENTS_API = '/api/v1/comments/';
 const ENDPOINT_GET_TOKEN_API = '/api/v1/captcha/';
@@ -27,6 +27,7 @@ let app = new Vue({
         newCommentParent: undefined,
         newCommentAuthor: '',
         newCommentContent: '',
+        policy: false,
         loadingNewComment: false,
         stateNewComment: undefined
     },
@@ -41,7 +42,7 @@ let app = new Vue({
             return R.head(R.filter(comment => comment.id === this.reply, this.comments));
         },
         isSubmit: function () {
-            return this.newCommentAuthor !== '' && this.newCommentAuthor !== undefined && this.newCommentContent !== '' && this.newCommentContent !== undefined;
+            return this.policy && this.newCommentAuthor !== '' && this.newCommentAuthor !== undefined && this.newCommentContent !== '' && this.newCommentContent !== undefined;
         }
     },
     methods: {
