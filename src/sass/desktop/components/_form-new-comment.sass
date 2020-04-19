@@ -1,12 +1,12 @@
 .new-comment
-  background: $color-gray
-  z-index: 2000
-  padding: 1.5rem
-  @include pin
   transition: .5s
-  transform: translateX(-100vw)
+  width: 0
+  &__position
+    position: sticky
+    top: 0
   &.show
-    transform: translateX(0)
+    padding: 2rem
+    width: 20rem
   &__header
     display: grid
     grid-template-columns: 1fr auto
@@ -49,6 +49,9 @@
       outline: none
     &:disabled
       opacity: .5
+    &:hover
+      cursor: pointer
+      background-color: darken($color-orange, 15%)
     &--loading
       @include animationOpacity()
     &--success

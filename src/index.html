@@ -29,35 +29,37 @@
 
             <!-- New comment -->
             <div class="new-comment" :class="{ 'show': showNewComment }">
-                <div class="new-comment__header">
-                    <div>
-                        <button @click="closeNewComment()" class="button new-comment__button-close">
-                            <img alt="Cerrar" class="new-comment__button-plus-img" src="img/close.svg">
-                        </button>
+                <div class="new-comment__position">
+                    <div class="new-comment__header">
+                        <div>
+                            <button @click="closeNewComment()" class="button new-comment__button-close">
+                                <img alt="Cerrar" class="new-comment__button-plus-img" src="img/close.svg">
+                            </button>
+                        </div>
+                        <p v-if="reply === undefined" class="new-comment__title">
+                            Nuevo comentario
+                        </p>
+                        <p v-else class="new-comment__title">
+                            Nueva replica a&nbsp;<strong>{{ formatEllipsisAuthor(replyComment.author) }}</strong>
+                        </p>
                     </div>
-                    <p v-if="reply === undefined" class="new-comment__title">
-                        Nuevo comentario
-                    </p>
-                    <p v-else class="new-comment__title">
-                        Nueva replica a&nbsp;<strong>{{ formatEllipsisAuthor(replyComment.author) }}</strong>
-                    </p>
+                    <form>
+                        <p>
+                            <input v-model="newCommentAuthor" :disabled="this.loadingNewComment" maxlength="20" class="new-comment__author" type="text" placeholder="Nombre..." />
+                        </p>
+                        <p>
+                            <textarea v-model="newCommentContent" :disabled="this.loadingNewComment" class="new-comment__content" placeholder="Mensaje..."></textarea>
+                        </p>
+                        <p class="new-comment__content-submit">
+                            <button class="new-comment__submit" type="button" @click="sendNewComment" :class="{ 'new-comment__submit--loading': loadingNewComment, 'new-comment__submit--success': stateNewComment === 'success', 'new-comment__submit--error': stateNewComment === 'error' }" :disabled="!isSubmit">
+                                <span v-if="!loadingNewComment && stateNewComment === undefined">Publicar</span>
+                                <span v-else-if="stateNewComment === 'success'">¡Publicado!</span>
+                                <span v-else-if="stateNewComment === 'error'">¡Ups! Algo ha fallado, ¿Reintentamos?</span>
+                                <span v-else>Enviando...</span>
+                            </button>
+                        </p>
+                    </form>
                 </div>
-                <form>
-                    <p>
-                        <input v-model="newCommentAuthor" :disabled="this.loadingNewComment" maxlength="20" class="new-comment__author" type="text" placeholder="Nombre..." />
-                    </p>
-                    <p>
-                        <textarea v-model="newCommentContent" :disabled="this.loadingNewComment" class="new-comment__content" placeholder="Mensaje..."></textarea>
-                    </p>
-                    <p class="new-comment__content-submit">
-                        <button class="new-comment__submit" type="button" @click="sendNewComment" :class="{ 'new-comment__submit--loading': loadingNewComment, 'new-comment__submit--success': stateNewComment === 'success', 'new-comment__submit--error': stateNewComment === 'error' }" :disabled="!isSubmit">
-                            <span v-if="!loadingNewComment && stateNewComment === undefined">Publicar</span>
-                            <span v-else-if="stateNewComment === 'success'">¡Publicado!</span>
-                            <span v-else-if="stateNewComment === 'error'">¡Ups! Algo ha fallado, ¿Reintentamos?</span>
-                            <span v-else>Enviando...</span>
-                        </button>
-                    </p>
-                </form>
             </div>
             <!-- End new comment -->
 

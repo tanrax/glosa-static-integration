@@ -53,7 +53,7 @@ let app = new Vue({
                 }
             })
                 .then(response => {
-                    this.comments = R.reverse(response.data);
+                    this.comments = response.data;
                     // Close form new comment
                     setTimeout(() => {
                         this.closeNewComment();
