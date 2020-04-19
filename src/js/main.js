@@ -1,5 +1,4 @@
-const URL_API = 'http://localhost:4000'; 
-//const URL_API = 'YOUR_IP or domain';
+const URL_API = 'YOUR_IP or domain';
 const ENDPOINT_COMMENTS_API = '/api/v1/comments/';
 const ENDPOINT_GET_TOKEN_API = '/api/v1/captcha/';
 const ANIMATION_CLOSE_FORM_SEND = 2000;
@@ -108,8 +107,7 @@ let app = new Vue({
             return R.filter(item => item.parent === id, this.comments);
         },
         getURL: function () {
-            return 'https://programadorwebvalencia.com/cual-es-el-mejor-navegador-web-2020/';
-            //return window.location.origin;
+            return window.location.origin;
         },
         openNewComment: function (id = undefined) {
             this.getToken();
@@ -127,6 +125,7 @@ let app = new Vue({
                 this.newCommentContent = undefined;
                 this.reply = undefined;
                 this.stateNewComment = undefined;
+                this.policy = false;
             }, ANIMATION_CLOSE_FORM);
         },
         formatEllipsisAuthor: formatEllipsisAuthor,
