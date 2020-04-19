@@ -1,6 +1,6 @@
-const URL_API = 'http://programadorwebvalencia.localhost:4000/api/v1';
-const ENDPOINT_COMMENTS_API = '/comments/';
-const ENDPOINT_GET_TOKEN_API = '/captcha/';
+const URL_API = 'YOUR_IP or domain';
+const ENDPOINT_COMMENTS_API = '/api/v1/comments/';
+const ENDPOINT_GET_TOKEN_API = '/api/v1/captcha/';
 const ANIMATION_CLOSE_FORM_SEND = 2000;
 const ANIMATION_CLOSE_FORM = 500;
 
@@ -106,7 +106,7 @@ let app = new Vue({
             return R.filter(item => item.parent === id, this.comments);
         },
         getURL: function () {
-            return 'https://programadorwebvalencia.com/cual-es-el-mejor-navegador-web-2020/';
+            return window.location;
         },
         openNewComment: function (id = undefined) {
             this.getToken();
