@@ -11,10 +11,9 @@ $width-header: 10rem
     border-top: 2px solid $color-orange
   &__header
     display: grid
-    grid-template-rows: repeat(3, auto)
+    grid-template-rows: repeat(2, 2rem) auto
     grid-gap: .5rem
     width: $width-header
-    align-items: center
     border-right: 2px solid $color-orange
     padding-right: 1rem
   &__create-at
@@ -31,6 +30,9 @@ $width-header: 10rem
   &__reply
     grid-row: 3 / 4
     text-align: right
+    display: flex
+    align-items: flex-start
+    justify-content: flex-end
     &-img
       width: 2rem
   &__line
