@@ -1,14 +1,20 @@
 .new-comment
+  position: fixed
+  background: $color-white
+  right: 0
+  top: 5rem
+  $border-width: 2px
+  border:
+    top: $border-width solid $color-orange
+    left: $border-width solid $color-orange
+    bottom: $border-width solid $color-orange
   transition: .5s
-  width: 0
-  overflow-x: hidden
-  &__position
-    position: sticky
-    top: 4rem
+  padding: 2rem
+  transform: translateX(100vw)
   &.show
-    overflow-x: initial
     padding: 2rem
     width: 20rem
+    transform: translateX(0)
   &__header
     display: grid
     grid-template-columns: 1fr auto

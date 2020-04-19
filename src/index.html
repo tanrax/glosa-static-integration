@@ -65,10 +65,17 @@
 
 
             <!-- Comments -->
-            <div class="comments__list">
+            <div v-if="commentsParent.length > 0" class="comments__list">
                 <comment v-for="comment in commentsParent" :id="comment.id" :comments="comments" />
             </div>
             <!-- End Comments -->
+
+            <!-- No comments -->
+            <p v-else class="comments__clear">
+                Escribe el primer comentario
+            </p>
+            <!-- End no comments -->
+
 
         </section>
 
