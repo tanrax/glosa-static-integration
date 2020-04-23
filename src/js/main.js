@@ -107,7 +107,7 @@ let app = new Vue({
             return R.filter(item => item.parent === id, this.comments);
         },
         getURL: function () {
-            return window.location.origin;
+            return window.location.href;
         },
         openNewComment: function (id = undefined) {
             this.getToken();
