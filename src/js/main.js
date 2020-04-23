@@ -168,7 +168,6 @@ Vue.component('comment', {
             return myElement.textContent;
         },
         openReply: function (id) {
-            app.getToken();
             app.openNewComment(id);
         },
         formatEllipsisAuthor: formatEllipsisAuthor
