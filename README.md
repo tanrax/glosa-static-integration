@@ -3,6 +3,12 @@
 </p>
 <h1 align="center">Glosa.js: Example client in Javascript.</h1>
 
+## Demo
+
+[Video](https://cdn.jsdelivr.net/gh/glosa/glosa-static-integration/media/demo.mp4)
+
+[Real site using Glosa](https://programadorwebvalencia.com/blog/)
+
 ## Compile
 
 1) It indicates in `main.js`, in the variable `URL_API` , where Glosa is running.
