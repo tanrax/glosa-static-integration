@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/tanrax/glosa-static-integration#readme",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "browser-sync": "^2.26.7",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
